@@ -34,13 +34,6 @@ PID = 0
 SIZE_GB_MAX = 735  # if one account has already copied 735GB, switch to next account
 CNT_DEAD_RETRY = 100  # if there is no files be copied for 100 times, switch to next account
 CNT_SA_EXIT = 3  # if continually switch account for 3 times stop script
-
-# change it when u know what are u doing
-# paramters for rclone.
-# If TPSLIMITxTRANSFERS is too big, will cause 404 user rate limit error,
-# especially for tasks with a lot of small files
-TPSLIMIT = 3
-TRANSFERS = 3
 # =================modify here=================
 
 
@@ -302,7 +295,7 @@ def main():
             rclone_cmd += "--dry-run "
         # --fast-list is default adopted in the latest rclone
         rclone_cmd += "--drive-server-side-across-configs --rc --rc-addr=\"localhost:{}\" -vv --ignore-existing ".format(args.port)
-        rclone_cmd += "--tpslimit {} --transfers {} --drive-chunk-size 32M ".format(TPSLIMIT, TRANSFERS)
+        rclone_cmd += "--tpslimit 1 --transfers 5"
         if args.disable_list_r:
             rclone_cmd += "--disable ListR "
         rclone_cmd += "--drive-acknowledge-abuse --log-file={} \"{}\" \"{}\"".format(logfile, src_full_path,
